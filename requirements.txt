@@ -1,9 +1,6 @@
-fastapi
+fastapi[standard]
 uvicorn
-pydantic
-langchain
-langchain_community
-langchain-core
-langchain-groq
-groq
-python-dotenv
+pdf2docx
+docx2pdf
+pandas
+openpyxl
