@@ -15,6 +15,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 
+
 @app.post("/pdf-to-word/")
 async def pdf_to_word(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)

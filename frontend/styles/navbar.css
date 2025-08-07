@@ -1,0 +1,41 @@
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1;
+}
+.navbar {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #01d069;
+    color: #fff;
+    padding: 10px;
+    
+}
+.navbar img {
+    width: 10rem;
+    height: auto;
+}
+.navbar a {
+    text-decoration: none;
+    color: #fff;
+    margin: 0 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+}
+.navbar div {
+    
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+}
