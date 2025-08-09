@@ -1,0 +1,13 @@
+
+.hero {
+  width: 100%;
+  height: 80vh; /* 80% din înălțimea ecranului */
+  overflow: hidden;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* taie și scalează imaginea ca să umple secțiunea */
+  display: block;
+}

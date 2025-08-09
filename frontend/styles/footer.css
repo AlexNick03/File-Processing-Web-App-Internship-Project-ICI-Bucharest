@@ -1,5 +1,6 @@
 
 footer {
+  font-family: 'Poppins', sans-serif;
   background-color: #01d069;
   color: #eaeaea;
   padding: 2rem;
@@ -15,8 +16,12 @@ footer {
 }
 
 .footer-links ul {
-  list-style: none;
-  padding: 0;
+    list-style: none; /* fără punctulețe */
+    display: flex;    /* ca să funcționeze gap-ul */
+    flex-direction: column;
+    gap: 20px;        /* spațiul între elemente */
+    padding: 0;
+    margin: 0;
 }
 
 .footer-links a {

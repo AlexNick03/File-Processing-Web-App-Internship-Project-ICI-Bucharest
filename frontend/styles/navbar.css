@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   margin: 0;
+  padding: 0;
 }
 
 body {
@@ -14,15 +15,22 @@ main {
 }
 .navbar {
     display: flex;
-    justify-content: space-around;
+    height: 120px; /* sau cât vrei tu */
+    align-items: stretch; /* copiii se întind pe toată înălțimea nav-ului */
+    background: #01d069;
+}
+
+.navbar > div {
+    flex: 1; /* fiecare ia lățimea alocată */
+    margin: 0;
+    padding: 20px; /* spațiu intern */
+   
+    display: flex; /* ca să centrezi conținutul pe verticală și orizontală */
+    justify-content: center;
     align-items: center;
-    background-color: #01d069;
-    color: #fff;
-    padding: 10px;
-    
 }
 .navbar img {
-    width: 10rem;
+    width: 15rem;
     height: auto;
 }
 .navbar a {
@@ -33,9 +41,8 @@ main {
     font-weight: bold;
     font-family: 'Poppins', sans-serif;
 }
-.navbar div {
-    
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px;
+
+.navbar div:hover {
+    background-color: #339b4b;
+    color: #01d069;
 }
