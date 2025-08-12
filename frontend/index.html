@@ -11,7 +11,12 @@
 <body>
     <nav class="navbar">
         <div class = "home-navigation">
-            <a href="#"><img src = "assets/images/logo.png"></a>
+          
+            <a class = "hover-wrapper" href="#">
+            <img class="logo" src = "assets/images/logo.png">
+            <span class = "home-text" class="home-text">Home</span>
+            </a>
+        
         </div>
         <div class = "pdf-navigation">
             <a href="#">PDF To Word</a>
@@ -27,31 +32,15 @@
         </div>
           
     </nav>
-    <main>
-        <div class = "main-home">
-          <section class="hero">
-            <img 
-              src="assets/images/hero.jpeg" 
-              srcset="assets/images/hero.jpeg 600w, assets/images/hero.jepg 1200w, assets/images/hero.jpeg 1800w" 
-              sizes="(max-width: 600px) 100vw, (max-width: 1200px) 50vw, 100vw"
-              alt="Imagine hero optimizata"
-            />
-        </section>
-          <div class="about-project">
-            
-            <h4>Despre proiect</h4>
-            <p>File Handler este un proiect educațional realizat în cadrul stagiului de practică la ICI București. Scopul aplicației este procesarea și conversia fișierelor într-un mod eficient și sigur.</p>
-          
-              
-          </div>
-      </div>
+    <main class = "main-section">
+        
     </main>
 
 <footer>
     <div class="footer-top">
 
       <div class="footer-links">
-        <h4>Linkuri utile</h4>
+        <h4>Useful links</h4>
         <ul>
           <li><a href="/">Home</a></li>
           <li><a href="/termeni">Termeni și condiții</a></li>
@@ -62,14 +51,15 @@
       <div class="footer-contact">
         <h4>Contact</h4>
         <p>Email: alexniculae367@gmail.com</p>
-        <p>Institutul Național de Cercetare în IT - ICI București</p>
+        <p>National Institute for Research in IT - ICI Bucharest</p>
       </div>
   </div>
 
   <div class="footer-bottom">
-    <p>© 2025 File Handler. Proiect educațional – ICI București. Toate drepturile rezervate.</p>
+    <p>© 2025 File Handler. Educational project – ICI Bucharest. All rights reserved</p>
   </div>
     </footer>
-
+    <script src="./scripts/main.js"></script>
 </body>
+
 </html>

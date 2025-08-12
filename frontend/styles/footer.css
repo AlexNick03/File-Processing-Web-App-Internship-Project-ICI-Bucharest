@@ -1,7 +1,7 @@
 
 footer {
   font-family: 'Poppins', sans-serif;
-  background-color: #01d069;
+  background-color:  #bfa374;
   color: #eaeaea;
   padding: 2rem;
   font-size: 0.9rem;
@@ -26,6 +26,7 @@ footer {
 
 .footer-links a {
   color: #eaeaea;
+  
   text-decoration: none;
 }
 

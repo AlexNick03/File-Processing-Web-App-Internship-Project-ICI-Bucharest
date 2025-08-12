@@ -15,16 +15,15 @@ main {
 }
 .navbar {
     display: flex;
-    height: 120px; /* sau cât vrei tu */
+    min-height:   120px; /* sau cât vrei tu */
     align-items: stretch; /* copiii se întind pe toată înălțimea nav-ului */
-    background: #01d069;
+    background: #dfc08c;
 }
 
 .navbar > div {
     flex: 1; /* fiecare ia lățimea alocată */
     margin: 0;
-    padding: 20px; /* spațiu intern */
-   
+
     display: flex; /* ca să centrezi conținutul pe verticală și orizontală */
     justify-content: center;
     align-items: center;
@@ -35,6 +34,7 @@ main {
 }
 .navbar a {
     text-decoration: none;
+    text-align: center;
     color: #fff;
     margin: 0 10px;
     font-size: 1rem;
@@ -43,6 +43,61 @@ main {
 }
 
 .navbar div:hover {
-    background-color: #339b4b;
+    background-color: #bfa374;
     color: #01d069;
+    
+
+  }
+.home-navigation {
+  /* Asigurăm containerul relativ pentru poziționarea absolută a copiilor */
+  position: relative;
 }
+
+.hover-wrapper {
+  position: relative;
+  width: 15rem;     /* fixăm lățimea egală cu logo */
+  height: 100px;    /* înălțime fixă, cât vrei tu */
+  overflow: hidden; /* ascunde elementele care ies în afară */
+  cursor: pointer;
+}
+
+.logo,
+.home-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  width: 100%; /* să ocupe toată lățimea containerului */
+  text-align: center;
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
+  color: #fff;
+  user-select: none;
+}
+
+.logo {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+}
+
+.home-text {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(40px);
+  font-size: 1.2rem;
+  pointer-events: none; /* ca să nu blocheze hover-ul pe wrapper */
+}
+
+/* Hover pe container: logo urcă și dispare, textul coboară și apare */
+.hover-wrapper:hover .logo {
+  opacity: 0;
+  transform: translate(-50%, -50%) translateY(-80px);
+  transition: opacity 0.1s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.hover-wrapper:hover .home-text {
+  opacity: 1;
+  transform: translate(-50%, -50%) translateY(0);
+  transition: opacity 0.1s ease-in-out, transform 0.2s ease-in-out;
+}
+
