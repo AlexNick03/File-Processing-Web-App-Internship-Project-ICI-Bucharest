@@ -1,0 +1,34 @@
+<div class = "word-to-pdf">
+  <div class="file-converter">
+    <h2>File Converter</h2>
+    <form id="convert-form">
+        
+        <div class="form-group">
+            <label for="from-format">From:</label>
+            <select id="from-format" name="from" required>
+                <option value="" disabled selected>Select format</option>
+                <option value="pdf">PDF</option>
+                <option value="docx">Word (DOCX)</option>
+                <option value="jpg">Image (JPG)</option>
+                <option value="png">Image (PNG)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="to-format">To:</label>
+            <select id="to-format" name="to" required>
+                <option value="" disabled selected>Select format</option>
+                <option value="pdf">PDF</option>
+                <option value="docx">Word (DOCX)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="file-input">Choose File:</label>
+            <input type="file" id="file-input" name="file" required>
+        </div>
+
+        <button type="submit" class="convert-btn">Convert</button>
+    </form>
+</div>
+</div>

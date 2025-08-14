@@ -1,0 +1,63 @@
+.excel-cleanup {
+  max-width: 500px;
+  margin: 60px auto;
+  padding: 30px;
+  background-color: white;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif;
+  color: #bfa374;
+}
+
+.excel-cleanup h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 25px;
+  color: #bfa374;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+input[type="file"],
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #bfa374;
+  border-radius: 8px;
+  font-size: 14px;
+  background-color: #fff;
+  color: #333;
+}
+
+input[type="file"]:focus,
+select:focus {
+  outline: none;
+  border-color: #a48c5f;
+  box-shadow: 0 0 5px rgba(191, 163, 116, 0.5);
+}
+
+.cleanup-btn {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #bfa374;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cleanup-btn:hover {
+  background-color: #a48c5f;
+}
