@@ -1,6 +1,7 @@
 fastapi[standard]
 uvicorn
 pdf2docx
+pdf2image
 docx2pdf
 pandas
 openpyxl

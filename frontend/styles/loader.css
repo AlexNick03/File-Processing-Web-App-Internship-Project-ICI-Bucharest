@@ -15,6 +15,29 @@
   margin-bottom: 25px;
   color: #bfa374;
 }
+.animation-panel {
+  border: 2px solid #bfa374;
+  height: 300px;
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #bfa374;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 10px;
+}
+.animation-panel h4{
+  text-align: center;
+}
+.animation-panel img {
+  width: 200px;
+  height: 300px;
+  object-fit: cover;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
 
 .form-group {
   margin-bottom: 20px;
