@@ -1,31 +1,4 @@
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
 
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  flex: 1;
-}
-.main-section {
-  opacity: 0;
-  transform: translateY(15px);
-  
-}
-
-.main-section.fade-in {
-  opacity: 1;
-  transition: opacity 0.6s ease-in, transform 0.6s ease-in;
-  transform: translateY(0);
-}
 .navbar {
     display: flex;
     min-height:   120px; /* sau cât vrei tu */
@@ -36,7 +9,7 @@ main {
 .navbar > a {
     flex: 1; /* fiecare ia lățimea alocată */
     margin: 0;
-
+    text-decoration: none;
     display: flex; /* ca să centrezi conținutul pe verticală și orizontală */
     justify-content: center;
     align-items: center;
