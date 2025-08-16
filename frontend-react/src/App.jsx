@@ -9,6 +9,7 @@ import ExcelCleanup from "./pages/ExcelCleanup";
 
 function App() {
   return (
+    <div className="page-wrapper">
     <Router>
       <Navbar />
       <MainSection>
@@ -20,6 +21,7 @@ function App() {
       </MainSection>
       <Footer />
     </Router>
+    </div>
   );
 }
 

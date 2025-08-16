@@ -8,9 +8,9 @@ function Navbar(){
         
             <Link to = "/" class = "home-navigation" >
             
-                <span class = "hover-wrapper">
-                <img class="logo" src = "/images/logo.png" alt="logo"/>
-                <span class = "home-text">Home</span>
+                <span className = "hover-wrapper">
+                <img className="logo" src = "/images/logo.png" alt="logo"/>
+                <span className = "home-text">Home</span>
                 </span>
             
             </Link>

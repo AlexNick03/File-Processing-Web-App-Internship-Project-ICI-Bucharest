@@ -30,9 +30,13 @@
 }
 .animation-panel h4{
   text-align: center;
+   max-width: 100%;       /* se încadrează în container */
+  overflow-wrap: break-word; /* sparge cuvintele prea lungi */
+  white-space: normal;   /* permite wrap pe mai multe linii */
 }
 .animation-panel img {
-  width: 200px;
+  min-width: 200px;
+  max-width: 300px;
   height: 300px;
   object-fit: cover;
   margin-bottom: 10px;
@@ -48,7 +52,13 @@ label {
   font-weight: 500;
   margin-bottom: 8px;
 }
-
+.form-group input,
+.form-group select {
+  width: 100%;          /* ocupă toată lățimea containerului */
+  padding: 8px 12px;    /* același padding ca select */
+  box-sizing: border-box; /* include padding-ul în lățime */
+  font-size: 14px;       /* sau același ca select */
+}
 select,
 input[type="file"] {
   width: 100%;
@@ -83,4 +93,58 @@ input[type="file"]:focus {
 
 .convert-btn:hover {
   background-color: #a48c5f;
+}
+.convert-instruction {
+  opacity: 0;
+  
+}
+
+
+.choice-image {
+  opacity: 0;
+  
+  max-width: 180px;
+  margin-top: 12px;
+}
+
+.show-text {
+  transform: translateY(10px);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+  opacity: 1;
+  transform: none;
+}
+.show-image {
+  opacity: 1;
+  transform: scale(0.9);
+  transition: opacity 0.9s ease, transform 0.9s ease;}
+
+.file-converter {
+  position: relative; /* necesar pentru overlay */
+}
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(255, 248, 230, 0.8); /* bej deschis semi-transparent */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #c4a96d; /* bej mai inchis */
+  border-top: 4px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
