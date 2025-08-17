@@ -1,7 +1,8 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException
 from fastapi.responses import FileResponse
 import shutil
 import os
+from typing import List
 from pdf2docx import Converter
 from docx2pdf import convert
 import pandas as pd
@@ -28,7 +29,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 
-# ---------------- PDF -> Word ----------------
+#PDF -> Word
 @app.post("/pdf-to-word/")
 async def pdf_to_word(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -44,7 +45,7 @@ async def pdf_to_word(file: UploadFile = File(...)):
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
-# ---------------- Word -> PDF ----------------
+#Word -> PDF
 @app.post("/word-to-pdf/")
 async def word_to_pdf(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -58,7 +59,7 @@ async def word_to_pdf(file: UploadFile = File(...)):
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
-# ---------------- Image -> PDF ----------------
+#Image -> PDF
 @app.post("/image-to-pdf/")
 async def image_to_pdf(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -73,7 +74,7 @@ async def image_to_pdf(file: UploadFile = File(...)):
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
-# ---------------- Image -> Word ----------------
+#Image -> Word
 @app.post("/image-to-word/")
 async def image_to_word(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -89,7 +90,7 @@ async def image_to_word(file: UploadFile = File(...)):
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
-# ---------------- Image Convert (JPG/JPEG <-> PNG) ----------------
+#Image Convert (JPG/JPEG <-> PNG)
 @app.post("/image-convert/")
 async def image_convert(file: UploadFile = File(...), target_format: str = "png"):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
@@ -126,17 +127,109 @@ async def image_convert(file: UploadFile = File(...), target_format: str = "png"
     return FileResponse(output_path, filename=output_filename)
 
 
-# ---------------- Clean Excel ----------------
-@app.post("/clean-excel/")
-async def clean_excel(file: UploadFile = File(...)):
+# Excel
+#Excel -> CSV
+@app.post("/excel-to-csv/")
+async def excel_to_csv(file: UploadFile = File(...)):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    output_path = os.path.join(OUTPUT_FOLDER, file.filename)
+    output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".csv")
 
     with open(input_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
     df = pd.read_excel(input_path)
-    df_clean = df.dropna(how='all').drop_duplicates()
-    df_clean.to_excel(output_path, index=False)
+    df.to_csv(output_path, index=False)
 
     return FileResponse(output_path, filename=os.path.basename(output_path))
+
+#CSV -> Excel
+@app.post("/csv-to-excel/")
+async def csv_to_excel(file: UploadFile = File(...)):
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".xlsx")
+
+    with open(input_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    df = pd.read_csv(input_path)
+    df.to_excel(output_path, index=False)
+
+    return FileResponse(output_path, filename=os.path.basename(output_path))
+
+#Merge Excel
+@app.post("/merge-excel/")
+async def merge_excel(files: List[UploadFile] = File(...)):
+    dfs = []
+    for file in files:
+        input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+        with open(input_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+        dfs.append(pd.read_excel(input_path))
+
+    merged = pd.concat(dfs, ignore_index=True)
+    output_path = os.path.join(OUTPUT_FOLDER, "merged.xlsx")
+    merged.to_excel(output_path, index=False)
+
+    return FileResponse(output_path, filename="merged.xlsx")
+
+#Split Excel
+@app.post("/split-excel/")
+async def split_excel(file: UploadFile = File(...)):
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    with open(input_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    xls = pd.ExcelFile(input_path)
+    output_files = []
+
+    for sheet_name in xls.sheet_names:
+        df = pd.read_excel(xls, sheet_name=sheet_name)
+        output_path = os.path.join(OUTPUT_FOLDER, f"{sheet_name}.xlsx")
+        df.to_excel(output_path, index=False)
+        output_files.append(output_path)
+
+    return [FileResponse(f, filename=os.path.basename(f)) for f in output_files]
+#Excel Cleanup
+@app.post("/clean-excel/")
+async def clean_excel(file: UploadFile = File(...)):
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    output_path = os.path.join(OUTPUT_FOLDER, "cleaned.xlsx")
+
+    with open(input_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    df = pd.read_excel(input_path)
+    df = df.dropna().drop_duplicates()
+    df.to_excel(output_path, index=False)
+
+    return FileResponse(output_path, filename="cleaned.xlsx")
+
+#Data sort
+@app.post("/sort-excel/")
+async def sort_excel(
+    file: UploadFile = File(...),
+    column: str = Form(...),
+    mode: str = Form("asc")  # implicit crescător
+):
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    output_path = os.path.join(OUTPUT_FOLDER, "sorted.xlsx")
+
+    with open(input_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+
+    df = pd.read_excel(input_path)
+
+    # Alegem metoda de sortare în funcție de `mode`
+    if mode == "asc":
+        df = df.sort_values(by=column, ascending=True)
+    elif mode == "desc":
+        df = df.sort_values(by=column, ascending=False)
+    elif mode == "alpha":
+        df[column] = df[column].astype(str)  # asigurăm text
+        df = df.sort_values(by=column, key=lambda x: x.str.lower())
+    else:
+        raise HTTPException(status_code=400, detail="Invalid sort mode")
+
+    df.to_excel(output_path, index=False)
+
+    return FileResponse(output_path, filename="sorted.xlsx")

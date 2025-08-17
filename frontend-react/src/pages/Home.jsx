@@ -20,7 +20,7 @@ function Home() {
                 <h4>Technologies</h4>
                     
                     <ul>
-                        <li>Frontend: HTML5, CSS3, JavaScript for a responsive and dynamic user interface.</li>
+                        <li>Frontend: HTML5, CSS3, React Js for a responsive and dynamic user interface.</li>
                         <li>Backend: Python with FastAPI to handle API endpoints efficiently and securely.</li>
                         <li>Deployment: Hosted on AWS for scalability and reliability.</li>
                     </ul>
