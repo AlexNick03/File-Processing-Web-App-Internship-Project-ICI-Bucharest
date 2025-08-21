@@ -4,10 +4,10 @@ import "./footer.css";
 function Footer() {
     
 return (
-        <footer class = "footer">
-            <div class="footer-top">
+        <footer className = "footer">
+            <div className="footer-top">
 
-            <div class="footer-links">
+            <div className="footer-links">
                 <h4>Useful links</h4>
                 <ul>
                 <li><a href="/">Home</a></li>
@@ -16,14 +16,14 @@ return (
                 </ul>
             </div>
 
-            <div class="footer-contact">
+            <div className="footer-contact">
                 <h4>Contact</h4>
                 <p>Email: alexniculae367@gmail.com</p>
                 <p>National Institute for Research in IT - ICI Bucharest</p>
             </div>
         </div>
 
-        <div class="footer-bottom">
+        <div className="footer-bottom">
             <p>© 2025 File Handler. Educational project – ICI Bucharest. All rights reserved</p>
         </div>
         </footer>

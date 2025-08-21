@@ -4,9 +4,9 @@ import "./navbar.css";
 
 function Navbar(){
     return (
-        <nav class="navbar">
+        <nav className="navbar">
         
-            <Link to = "/" class = "home-navigation" >
+            <Link to = "/" className = "home-navigation" >
             
                 <span className = "hover-wrapper">
                 <img className="logo" src = "/images/logo.png" alt="logo"/>

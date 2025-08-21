@@ -1,4 +1,4 @@
-.excel-cleanup {
+.excel-options {
   max-width: 500px;
   margin: 60px auto;
   padding: 30px;
@@ -9,7 +9,7 @@
   color: #bfa374;
 }
 
-.excel-cleanup h2 {
+.excel-options h2 {
   text-align: center;
   font-size: 28px;
   margin-bottom: 25px;
@@ -43,8 +43,10 @@ select:focus {
   border-color: #a48c5f;
   box-shadow: 0 0 5px rgba(191, 163, 116, 0.5);
 }
-
-.cleanup-btn {
+.excel-options{
+  position: relative;
+}
+.submit-btn {
   display: block;
   width: 100%;
   padding: 12px;
@@ -58,10 +60,10 @@ select:focus {
   transition: background-color 0.3s ease;
 }
 
-.cleanup-btn:hover {
+.submit-btn:hover {
   background-color: #a48c5f;
 }
-.cleanup-btn-disabled {
+.submit-btn-disabled {
   display: block;
   width: 100%;
   padding: 12px;

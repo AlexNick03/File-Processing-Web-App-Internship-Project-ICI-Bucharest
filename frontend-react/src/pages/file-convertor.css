@@ -77,28 +77,6 @@ input[type="file"]:focus {
   box-shadow: 0 0 5px rgba(191, 163, 116, 0.5);
 }
 
-.convert-btn {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background-color: #bfa374;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.convert-btn:hover {
-  background-color: #a48c5f;
-}
-.convert-instruction {
-  opacity: 0;
-  
-}
-
 
 .choice-image {
   opacity: 0;

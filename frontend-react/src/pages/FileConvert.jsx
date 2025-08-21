@@ -112,7 +112,7 @@ const toOptions = fromFormat ? toOptionsMap[fromFormat] : [];
   if (fromFormat === "png") acceptedTypes = ".png";
 
   return (
-    <div className="word-to-pdf">
+    <div className="main-converter">
       <div className="file-converter">
         <h2>File Converter</h2>
 
@@ -188,15 +188,15 @@ const toOptions = fromFormat ? toOptionsMap[fromFormat] : [];
             />
           </div>
 
-          <button type="submit" className="convert-btn" disabled={!file}>
+          <button type="submit" className={ file ? "submit-btn" : "submit-btn-disabled"} disabled={!file}>
             Convert
           </button>
         </form>
-        {loading && (
-            <div className="loading-overlay">
-                <div className="spinner"></div>
-            </div>
-        )}
+            {loading && (
+                <div className="loading-overlay">
+                    <div className="spinner"></div>
+                </div>
+            )}
       </div>
     </div>
   );

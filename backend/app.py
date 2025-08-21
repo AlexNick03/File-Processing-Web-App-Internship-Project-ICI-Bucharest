@@ -128,6 +128,24 @@ async def image_convert(file: UploadFile = File(...), target_format: str = "png"
 
 
 # Excel
+#Return names of collumn
+@app.post("/get-excel-collumn-name/")
+async def get_excel_collumn_name(file: UploadFile = File(...)):
+    # Salvăm fișierul temporar
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    with open(input_path, "wb") as f:
+        f.write(await file.read())
+
+    # Alegem cum citim în funcție de extensie
+    if file.filename.endswith(".csv"):
+        df = pd.read_csv(input_path)
+    else:  # presupunem Excel
+        df = pd.read_excel(input_path)
+
+    # Extragem numele coloanelor
+    columns = [{"index": i, "name": col} for i, col in enumerate(df.columns)]
+    return columns
+
 #Excel -> CSV
 @app.post("/excel-to-csv/")
 async def excel_to_csv(file: UploadFile = File(...)):
@@ -208,28 +226,46 @@ async def clean_excel(file: UploadFile = File(...)):
 @app.post("/sort-excel/")
 async def sort_excel(
     file: UploadFile = File(...),
-    column: str = Form(...),
-    mode: str = Form("asc")  # implicit crescător
+    column_index: int = Form(...),
+    mode: str = Form("sort_asc")  # implicit crescător
 ):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    output_path = os.path.join(OUTPUT_FOLDER, "sorted.xlsx")
+    output_ext = os.path.splitext(file.filename)[1].lower()  # extragem extensia originală
+    output_path = os.path.join(OUTPUT_FOLDER, f"sorted{output_ext}")
 
+    # Salvăm fișierul încărcat
     with open(input_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    df = pd.read_excel(input_path)
+    # Citim fișierul în funcție de extensie
+    if output_ext == ".csv":
+        df = pd.read_csv(input_path)
+    elif output_ext in [".xls", ".xlsx"]:
+        df = pd.read_excel(input_path)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file type")
 
-    # Alegem metoda de sortare în funcție de `mode`
-    if mode == "asc":
-        df = df.sort_values(by=column, ascending=True)
-    elif mode == "desc":
-        df = df.sort_values(by=column, ascending=False)
-    elif mode == "alpha":
-        df[column] = df[column].astype(str)  # asigurăm text
-        df = df.sort_values(by=column, key=lambda x: x.str.lower())
+    # Validăm indexul coloanei
+    try:
+        column_name = df.columns[column_index]
+    except IndexError:
+        raise HTTPException(status_code=400, detail="Invalid column index")
+
+    # Alegem metoda de sortare
+    if mode == "sort_asc":
+        df = df.sort_values(by=column_name, ascending=True)
+    elif mode == "sort_desc":
+        df = df.sort_values(by=column_name, ascending=False)
+    elif mode == "sort_alpha":
+        df[column_name] = df[column_name].astype(str)
+        df = df.sort_values(by=column_name, key=lambda x: x.str.lower())
     else:
         raise HTTPException(status_code=400, detail="Invalid sort mode")
 
-    df.to_excel(output_path, index=False)
+    # Salvăm în același format ca inputul
+    if output_ext == ".csv":
+        df.to_csv(output_path, index=False)
+    else:
+        df.to_excel(output_path, index=False)
 
-    return FileResponse(output_path, filename="sorted.xlsx")
+    return FileResponse(output_path, filename=f"sorted{output_ext}")
