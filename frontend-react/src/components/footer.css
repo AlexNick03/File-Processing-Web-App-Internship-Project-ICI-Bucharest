@@ -41,3 +41,8 @@ footer {
   text-align: center;
   font-size: 0.8rem;
 }
+.footer-contact a{
+  color: #eaeaea;
+  text-decoration: none;
+
+}

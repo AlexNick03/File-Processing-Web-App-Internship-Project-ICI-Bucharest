@@ -33,7 +33,6 @@ function Excel() {
   }
 
  const handleFileUpload = async (e) => {
-  
   const file = e.target.files[0];
   setExcelFile(file);
   setSecondOption("");
@@ -69,8 +68,10 @@ function Excel() {
       message = "Please select the file you want to perform the operation on";
       image = "/images/excel-pickup.png";
     } else if ((firstOption && excelFile && secondOptionMap[firstOption][0] && !secondOption)) {
+       
         message = "Please select the column you want to perform the operation on";
-      image = "/images/collumns.png"; 
+        image = "/images/collumns.png"; 
+          
     }
     else if ((firstOption && excelFile && !secondOptionMap[firstOption][0]) ||(firstOption && excelFile &&secondOptionMap[firstOption][0] && secondOption) ) {
       message = `Ready to perform ${firstOption} on ${excelFile ? excelFile.name : ""}`;
@@ -95,7 +96,6 @@ function Excel() {
     if (!excelFile || !firstOption) return alert("Please select a file to perform an operation.");
     if (firstOption  === "csv_to_excel") endpoint = "/csv-to-excel/";
     else if (firstOption === "excel_to_csv") endpoint = "/excel-to-csv/";
-    else if (firstOption === "merge_excel") endpoint = "/merge-excel/";
     else if (firstOption === "split_files") endpoint = "/split-files/";
     else if (firstOption === "sort_alpha" || firstOption === "sort_desc" || firstOption === "sort_asc") endpoint = "/sort-excel/";
     else if (firstOption === "filter_dropna") endpoint = "/filter-dropna/";
@@ -174,7 +174,6 @@ function Excel() {
             <option value="">Select Option</option>
             <option value="csv_to_excel">Convert CSV → Excel</option>
             <option value="excel_to_csv">Convert Excel → CSV</option>
-            <option value="merge_files">Merge Excel Files</option>
             <option value="split_files">Split Files</option>
             <option value="sort_alpha">Sort Data - Alphabetical (by columns)</option>
             <option value="sort_asc">Sort Data - Ascending (by columns)</option>

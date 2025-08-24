@@ -10,9 +10,9 @@ return (
             <div className="footer-links">
                 <h4>Useful links</h4>
                 <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/terms">Terms and conditions</a></li>
-                <li><a href="/confs">Privacy Policy</a></li>
+                <li><Link to ="/">Home</Link></li>
+                <li><Link to="/terms">Terms and conditions</Link></li>
+                <li><Link to="/confs">Privacy Policy</Link></li>
                 </ul>
             </div>
 
@@ -20,6 +20,8 @@ return (
                 <h4>Contact</h4>
                 <p>Email: alexniculae367@gmail.com</p>
                 <p>National Institute for Research in IT - ICI Bucharest</p>
+                <p>Also visit my GitHub profile: <Link to ="https://github.com/AlexNick03">https://github.com/AlexNick03</Link></p>
+                
             </div>
         </div>
 

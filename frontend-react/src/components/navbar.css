@@ -1,49 +1,49 @@
-
 .navbar {
-    display: flex;
-    min-height:   120px; /* sau cât vrei tu */
-    align-items: stretch; /* copiii se întind pe toată înălțimea nav-ului */
-    background: #dfc08c;
+  display: flex;
+  min-height: 120px;
+  align-items: stretch;
+  background: #dfc08c;
 }
 
 .navbar > a {
-    flex: 1; /* fiecare ia lățimea alocată */
-    margin: 0;
-    text-decoration: none;
-    display: flex; /* ca să centrezi conținutul pe verticală și orizontală */
-    justify-content: center;
-    align-items: center;
+  flex: 1;
+  margin: 0;
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+
 .navbar img {
-    width: 15rem;
-    height: auto;
+  width: 15rem;
+  height: auto;
 }
+
 .navbar p {
-    text-decoration: none;
-    text-align: center;
-    color: #fff;
-    margin: 0 10px;
-    font-size: 1rem;
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+  text-align: center;
+  color: #fff;
+  margin: 0 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Poppins", sans-serif;
 }
 
 .navbar a:hover {
-    background-color: #bfa374;
-    color: #01d069;
-    
+  background-color: #bfa374;
+  color: #01d069;
+}
 
-  }
+/* Hover-ul pentru logo */
 .home-navigation {
-  /* Asigurăm containerul relativ pentru poziționarea absolută a copiilor */
   position: relative;
 }
 
 .hover-wrapper {
   position: relative;
-  width: 15rem;     /* fixăm lățimea egală cu logo */
-  height: 100px;    /* înălțime fixă, cât vrei tu */
-  overflow: hidden; /* ascunde elementele care ies în afară */
+  width: 15rem;
+  height: 100px;
+  overflow: hidden;
   cursor: pointer;
 }
 
@@ -56,7 +56,7 @@
   transition: opacity 0.4s ease, transform 0.4s ease;
   text-align: center;
   font-weight: bold;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   color: #fff;
   user-select: none;
 }
@@ -70,10 +70,9 @@
   opacity: 0;
   transform: translate(-50%, -50%) translateY(40px);
   font-size: 1.2rem;
-  pointer-events: none; /* ca să nu blocheze hover-ul pe wrapper */
+  pointer-events: none;
 }
 
-/* Hover pe container: logo urcă și dispare, textul coboară și apare */
 .home-navigation:hover .logo {
   opacity: 0;
   transform: translate(-50%, -50%) translateY(-80px);
@@ -86,3 +85,30 @@
   transition: opacity 0.1s ease-in-out, transform 0.2s ease-in-out;
 }
 
+/* 🔹 Responsive pentru mobil */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column; /* linkurile se pun sub logo */
+    min-height: auto;
+    padding: 10px;
+  }
+
+  .navbar > a {
+    flex: none; /* să nu se mai întindă forțat */
+    width: 100%; /* ia toată lățimea */
+    padding: 12px 0;
+  }
+
+  .navbar img {
+    width: 8rem; /* logo mai mic pe mobil */
+  }
+
+  .hover-wrapper {
+    width: 8rem; /* se ajustează cu logo-ul */
+    height: 70px;
+  }
+
+  .navbar p {
+    font-size: 0.9rem; /* text mai mic */
+  }
+}

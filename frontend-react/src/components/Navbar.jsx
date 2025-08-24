@@ -22,7 +22,7 @@ function Navbar(){
             <Link to = "/excel-navigation">
                 <p>Excel CleanUp</p>
             </Link>
-            <Link to = "/excel-navigation">
+            <Link to = "/about-me-navigation/">
                 <p>About me</p>
             </Link>
             

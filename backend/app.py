@@ -174,21 +174,7 @@ async def csv_to_excel(file: UploadFile = File(...)):
 
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
-#Merge Excel
-@app.post("/merge-excel/")
-async def merge_excel(files: List[UploadFile] = File(...)):
-    dfs = []
-    for file in files:
-        input_path = os.path.join(UPLOAD_FOLDER, file.filename)
-        with open(input_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
-        dfs.append(pd.read_excel(input_path))
 
-    merged = pd.concat(dfs, ignore_index=True)
-    output_path = os.path.join(OUTPUT_FOLDER, "merged.xlsx")
-    merged.to_excel(output_path, index=False)
-
-    return FileResponse(output_path, filename="merged.xlsx")
 
 #Split Excel
 @app.post("/split-excel/")
