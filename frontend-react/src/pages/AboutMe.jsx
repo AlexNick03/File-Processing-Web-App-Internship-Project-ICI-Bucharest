@@ -28,7 +28,7 @@ function AboutMe() {
         <img src="/images/university.png" alt="University emblem" />
       </div>
 
-      <div className="studies">  <p>
+      <div className="studies">
         <h2>Studies</h2>   
       
     
@@ -46,7 +46,7 @@ function AboutMe() {
             to develop both technical knowledge and problem-solving skills that I am eager 
             to apply in real-world projects.
         </p>
-        </p>
+        
       </div>
     </div>
       <div className="about-skills card">
@@ -68,7 +68,7 @@ function AboutMe() {
                 <li>Python</li>
                 <li>Java</li>
                 <li>C++</li>
-                <li>SQL</li>
+                
               </ul>
             </div>
 
@@ -78,6 +78,7 @@ function AboutMe() {
                 <li>Django, FastAPI</li>
                 <li>React (JavaScript)</li>
                 <li>HTML, CSS, JavaScript</li>
+                <li>SQL</li>
                 <li>Data science concepts</li>
                 <li>Realational databases</li>
                 <li>Non relational databases</li>

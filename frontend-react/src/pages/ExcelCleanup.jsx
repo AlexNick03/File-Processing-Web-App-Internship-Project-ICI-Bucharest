@@ -7,12 +7,10 @@ function Excel() {
     default: [false, "null"],
     "csv_to_excel": [false, "null"],
     "excel_to_csv": [false, "null"],
-    "split_files": [false, "null"],
     "sort_alpha": [true,"column_index"],
     "sort_asc": [true,"column_index"],
     "sort_desc": [true,"column_index"],
-    "merge_files": [false,"null"],
-    "filter_dropna" : [false, "null"],
+    "clean_excel" : [false, "null"],
   }
   const [collumnsName, setCollumnsName] = useState([]);
   const [firstOption, setFirstOption] = useState("");
@@ -53,7 +51,7 @@ function Excel() {
 
       const columns = await response.json();
       setCollumnsName(columns);
-      console.log(columns);
+     
       
     } catch (error) {
       console.error(error);
@@ -62,7 +60,7 @@ function Excel() {
     }
   }
 };
-  let message = "Pleas select the option you want to perform";
+  let message = "Please select the option you want to perform";
   let image = "/images/option.png";
   if (firstOption && !excelFile) {
       message = "Please select the file you want to perform the operation on";
@@ -96,9 +94,8 @@ function Excel() {
     if (!excelFile || !firstOption) return alert("Please select a file to perform an operation.");
     if (firstOption  === "csv_to_excel") endpoint = "/csv-to-excel/";
     else if (firstOption === "excel_to_csv") endpoint = "/excel-to-csv/";
-    else if (firstOption === "split_files") endpoint = "/split-files/";
     else if (firstOption === "sort_alpha" || firstOption === "sort_desc" || firstOption === "sort_asc") endpoint = "/sort-excel/";
-    else if (firstOption === "filter_dropna") endpoint = "/filter-dropna/";
+    else if (firstOption === "clean_excel") endpoint = "/clean-excel/";
     else return alert("Conversion not supported.");
 
     setLoading(true);
@@ -107,22 +104,33 @@ function Excel() {
     if (firstOption === "sort_alpha" || firstOption === "sort_desc" || firstOption === "sort_asc"){
        formData.append("column_index", secondOption);
        formData.append("mode", firstOption);
+       
+       
     
-    
+    }
+    for (let [key, value] of formData.entries()) {
+             console.log(`${key}:`, value);
     }
     try {
       const response = await fetch(`http://localhost:8000` + endpoint, {
         method: "POST",
         body: formData,
       });
-
+      console.log(response);
+      
       if (!response.ok) throw new Error("Conversion failed");
       
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement("a");
       a.href = url;
-      const extension = firstOption === "excel_to_csv" ? ".csv" : ".xlsx";
+      let extension = ""
+      if (firstOption === "csv_to_excel") extension = ".xlsx";
+      else if (firstOption === "excel_to_csv") extension = ".csv";
+      else if (firstOption === "split_files") extension = ".zip";
+      else if ((firstOption === "sort_alpha" || firstOption === "sort_desc" || firstOption === "sort_asc") && excelFile.name.split(".")[1]=== "csv") extension = ".csv";
+      else if (firstOption === "clean_excel" ) extension = ".zip";
+       
       a.download = excelFile.name.split(".")[0] + extension;
       document.body.appendChild(a);
       a.click();
@@ -150,7 +158,7 @@ function Excel() {
   return (
     <div className="main-excel">
       <div className="excel-options">
-      <h2>Excel Cleanup</h2>
+      <h2>Excel Operations</h2>
       {/* Animation panel */}
         <div className="animation-panel">
           <h4 className={`convert-instruction ${animate ? "show-text" : ""}`}>
@@ -174,11 +182,10 @@ function Excel() {
             <option value="">Select Option</option>
             <option value="csv_to_excel">Convert CSV → Excel</option>
             <option value="excel_to_csv">Convert Excel → CSV</option>
-            <option value="split_files">Split Files</option>
-            <option value="sort_alpha">Sort Data - Alphabetical (by columns)</option>
-            <option value="sort_asc">Sort Data - Ascending (by columns)</option>
-            <option value="sort_desc">Sort Data - Descending  (by columns)</option>
-            <option value="filter_dropna">Filter Data - Drop NA (Remove missing values)</option>
+            <option value="sort_alpha">Sort Data - Alphabetical (by column)</option>
+            <option value="sort_asc">Sort Data - Ascending (by column)</option>
+            <option value="sort_desc">Sort Data - Descending  (by column)</option>
+            <option value="clean_excel">Excel Smart Clean</option>
           
           </select>
         </div>
@@ -207,15 +214,11 @@ function Excel() {
                 >
                 <option value="">Select Option</option>
                 {collumnsName.map((obj) => (
-                  <option key={obj["index"]} value={obj["name"]}>
+                  <option key={obj["index"]} value={obj["index"]}>
                     {obj["name"]}
                   </option>
                 ))}  
                 </select>
-                
-    
-            
-              
             </div>
         ) : null}
 
@@ -223,7 +226,7 @@ function Excel() {
 
         
 
-        <button type= "sumbit" className={excelFile ? "submit-btn" : "submit-btn-disabled"} disabled={!excelFile}>Perform Operation</button>
+        <button type= "sumbit" className={(firstOption === "sort_alpha" || firstOption === "sort_asc" || firstOption === "sort_desc") && secondOption || excelFile && (collumnsName.length === 0) ? "submit-btn" : "submit-btn-disabled"} disabled={!excelFile}>Perform Operation</button>
         
     </form>
         {loading && (

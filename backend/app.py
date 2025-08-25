@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File, Form, HTTPException
+from fastapi import FastAPI, UploadFile, File, Form, HTTPException, BackgroundTasks
 from fastapi.responses import FileResponse
 import shutil
 import os
@@ -10,8 +10,8 @@ from PIL import Image
 from docx import Document
 from docx.shared import Inches
 from fastapi.middleware.cors import CORSMiddleware
-
-
+import zipfile, tempfile
+import json
 app = FastAPI()
 
 app.add_middleware(
@@ -31,7 +31,8 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 
 #PDF -> Word
 @app.post("/pdf-to-word/")
-async def pdf_to_word(file: UploadFile = File(...)):
+async def pdf_to_word(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".docx")
 
@@ -42,12 +43,16 @@ async def pdf_to_word(file: UploadFile = File(...)):
     cv.convert(output_path, start=0, end=None)
     cv.close()
 
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
 #Word -> PDF
 @app.post("/word-to-pdf/")
-async def word_to_pdf(file: UploadFile = File(...)):
+async def word_to_pdf(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".pdf")
 
@@ -55,13 +60,18 @@ async def word_to_pdf(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     convert(input_path, output_path)
+    
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
 
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
 #Image -> PDF
 @app.post("/image-to-pdf/")
-async def image_to_pdf(file: UploadFile = File(...)):
+async def image_to_pdf(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".pdf")
 
@@ -70,13 +80,16 @@ async def image_to_pdf(file: UploadFile = File(...)):
 
     image = Image.open(input_path).convert("RGB")
     image.save(output_path, "PDF")
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
 #Image -> Word
 @app.post("/image-to-word/")
-async def image_to_word(file: UploadFile = File(...)):
+async def image_to_word(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".docx")
 
@@ -86,13 +99,16 @@ async def image_to_word(file: UploadFile = File(...)):
     doc = Document()
     doc.add_picture(input_path, width=Inches(6))  # păstrează aspectul
     doc.save(output_path)
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 
 #Image Convert (JPG/JPEG <-> PNG)
 @app.post("/image-convert/")
-async def image_convert(file: UploadFile = File(...), target_format: str = "png"):
+async def image_convert(file: UploadFile = File(...), target_format: str = "png",
+                        background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
 
     # Normalizează target_format
@@ -123,7 +139,9 @@ async def image_convert(file: UploadFile = File(...), target_format: str = "png"
 
     # Salvează imaginea PNG
     image.save(output_path, "PNG")
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=output_filename)
 
 
@@ -144,11 +162,13 @@ async def get_excel_collumn_name(file: UploadFile = File(...)):
 
     # Extragem numele coloanelor
     columns = [{"index": i, "name": col} for i, col in enumerate(df.columns)]
+     
     return columns
 
 #Excel -> CSV
 @app.post("/excel-to-csv/")
-async def excel_to_csv(file: UploadFile = File(...)):
+async def excel_to_csv(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".csv")
 
@@ -157,12 +177,15 @@ async def excel_to_csv(file: UploadFile = File(...)):
 
     df = pd.read_excel(input_path)
     df.to_csv(output_path, index=False)
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
 #CSV -> Excel
 @app.post("/csv-to-excel/")
-async def csv_to_excel(file: UploadFile = File(...)):
+async def csv_to_excel(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_path = os.path.join(OUTPUT_FOLDER, file.filename.rsplit(".", 1)[0] + ".xlsx")
 
@@ -171,49 +194,103 @@ async def csv_to_excel(file: UploadFile = File(...)):
 
     df = pd.read_csv(input_path)
     df.to_excel(output_path, index=False)
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=os.path.basename(output_path))
 
-
-
-#Split Excel
-@app.post("/split-excel/")
-async def split_excel(file: UploadFile = File(...)):
-    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    with open(input_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
-
-    xls = pd.ExcelFile(input_path)
-    output_files = []
-
-    for sheet_name in xls.sheet_names:
-        df = pd.read_excel(xls, sheet_name=sheet_name)
-        output_path = os.path.join(OUTPUT_FOLDER, f"{sheet_name}.xlsx")
-        df.to_excel(output_path, index=False)
-        output_files.append(output_path)
-
-    return [FileResponse(f, filename=os.path.basename(f)) for f in output_files]
 #Excel Cleanup
-@app.post("/clean-excel/")
-async def clean_excel(file: UploadFile = File(...)):
-    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    output_path = os.path.join(OUTPUT_FOLDER, "cleaned.xlsx")
 
+@app.post("/clean-excel/")
+async def clean_excel(file: UploadFile = File(...),
+                      background_tasks: BackgroundTasks = None):
+    input_path = os.path.join(UPLOAD_FOLDER, file.filename)
+    ext = os.path.splitext(file.filename)[1].lower()
+    cleaned_path = os.path.join(OUTPUT_FOLDER, f"cleaned{ext}")
+    report_path = os.path.join(OUTPUT_FOLDER, "report.json")
+    zip_path = os.path.join(OUTPUT_FOLDER, f"cleaned_package.zip")
+
+    # Salvăm fișierul primit
     with open(input_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    df = pd.read_excel(input_path)
-    df = df.dropna().drop_duplicates()
-    df.to_excel(output_path, index=False)
+    # Citim fișierul în funcție de extensie
+    if ext == ".csv":
+        df = pd.read_csv(input_path)
+    elif ext in [".xls", ".xlsx"]:
+        df = pd.read_excel(input_path)
+    else:
+        raise HTTPException(status_code=400, detail="Unsupported file type")
 
-    return FileResponse(output_path, filename="cleaned.xlsx")
+    # Raport inițial
+    initial_shape = df.shape
+
+    # Curățare avansată
+    df = df.dropna(how="all")            # elimină rânduri complet goale
+    df = df.dropna(axis=1, how="all")    # elimină coloane complet goale
+    df = df.drop_duplicates()
+
+    # Curățare whitespace
+    df = df.applymap(lambda x: x.strip() if isinstance(x, str) else x)
+
+    # Standardizare nume coloane
+    df.columns = [col.strip().lower().replace(" ", "_") for col in df.columns]
+
+    # Conversii de tipuri
+    conversions = {}
+    for col in df.columns:
+        before_dtype = str(df[col].dtype)
+        try:
+            df[col] = pd.to_numeric(df[col])
+        except Exception:
+            try:
+                df[col] = pd.to_datetime(df[col])
+            except Exception:
+                pass
+        after_dtype = str(df[col].dtype)
+        if before_dtype != after_dtype:
+            conversions[col] = {"before": before_dtype, "after": after_dtype}
+
+    #Raport final
+    final_shape = df.shape
+    report = {
+        "initial_rows": initial_shape[0],
+        "initial_columns": initial_shape[1],
+        "final_rows": final_shape[0],
+        "final_columns": final_shape[1],
+        "rows_removed": initial_shape[0] - final_shape[0],
+        "columns_removed": initial_shape[1] - final_shape[1],
+        "dtype_conversions": conversions,
+    }
+
+    # Salvăm raportul JSON
+    with open(report_path, "w", encoding="utf-8") as f:
+        json.dump(report, f, indent=4, ensure_ascii=False)
+
+    # Salvăm fișierul curățat
+    if ext == ".csv":
+        df.to_csv(cleaned_path, index=False)
+    else:
+        df.to_excel(cleaned_path, index=False)
+
+    # Punem ambele într-un ZIP
+    with zipfile.ZipFile(zip_path, "w") as zipf:
+        zipf.write(cleaned_path, os.path.basename(cleaned_path))
+        zipf.write(report_path, os.path.basename(report_path))
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, cleaned_path)
+        background_tasks.add_task(os.remove, report_path)
+        background_tasks.add_task(os.remove, zip_path)
+    return FileResponse(zip_path,  media_type="application/zip", filename="cleaned_package.zip")
 
 #Data sort
 @app.post("/sort-excel/")
 async def sort_excel(
     file: UploadFile = File(...),
     column_index: int = Form(...),
-    mode: str = Form("sort_asc")  # implicit crescător
+    mode: str = Form("sort_asc"),  # implicit crescător
+    background_tasks: BackgroundTasks = None
 ):
     input_path = os.path.join(UPLOAD_FOLDER, file.filename)
     output_ext = os.path.splitext(file.filename)[1].lower()  # extragem extensia originală
@@ -253,5 +330,7 @@ async def sort_excel(
         df.to_csv(output_path, index=False)
     else:
         df.to_excel(output_path, index=False)
-
+    if background_tasks:
+        background_tasks.add_task(os.remove, input_path)
+        background_tasks.add_task(os.remove, output_path)
     return FileResponse(output_path, filename=f"sorted{output_ext}")

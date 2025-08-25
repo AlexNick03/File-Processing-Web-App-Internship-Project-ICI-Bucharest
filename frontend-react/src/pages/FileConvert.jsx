@@ -178,6 +178,7 @@ const toOptions = fromFormat ? toOptionsMap[fromFormat] : [];
           <div className="form-group">
             <label htmlFor="file-input">Choose File:</label>
             <input
+              key={fromFormat}
               type="file"
               id="file-input"
               name="file"

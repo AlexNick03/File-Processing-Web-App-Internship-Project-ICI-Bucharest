@@ -20,7 +20,7 @@ function Navbar(){
             </Link>
         
             <Link to = "/excel-navigation">
-                <p>Excel CleanUp</p>
+                <p>Excel Operations</p>
             </Link>
             <Link to = "/about-me-navigation/">
                 <p>About me</p>
