@@ -16,7 +16,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://file-handler-frontend.s3-website.eu-north-1.amazonaws.com"],  # URL-ul frontend-ului
+    allow_origins=["http://13.60.8.194"],  # URL-ul frontend-ului
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

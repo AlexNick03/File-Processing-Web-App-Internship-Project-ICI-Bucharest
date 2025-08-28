@@ -43,7 +43,7 @@ const [loading, setLoading] = useState(false);
   formData.append("file", file);
 
   try {
-    const response = await fetch(`http://51.20.43.121` + endpoint, {
+    const response = await fetch(`/api/` + endpoint, {
       method: "POST",
       body: formData,
     });
