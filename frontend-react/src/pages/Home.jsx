@@ -12,7 +12,7 @@ function Home() {
                 </section>
             <div className="about-project">
                 
-                <h4>File Hnadler </h4>
+                <h4>File Handler </h4>
                 <p>File Handler is an educational project developed during the internship at ICI Bucharest. The purpose of the application is to process and convert files in an efficient and secure manner.</p>
 
             </div>
