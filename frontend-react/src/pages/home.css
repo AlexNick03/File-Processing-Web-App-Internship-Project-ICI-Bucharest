@@ -1,7 +1,13 @@
+/* Reset margin/padding pentru container */
 .main-home {
   background-color: white;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center; /* centrează conținutul pe orizontală */
+  overflow-x: hidden;      /* elimină slide-ul lateral */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* HERO */
@@ -84,4 +90,49 @@
 
 .about-tech li {
   margin-bottom: 10px;
+}
+/* HERO IMAGE RESPONSIVE */
+@media (max-width: 768px) {
+  .hero {
+    max-width: 90vw;  /* ocupă aproape toată lățimea pe mobile */
+    max-height: 50vh; /* reduce înălțimea pe ecrane mici */
+    padding: 10px;
+  }
+
+  .hero img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+}
+
+/* ABOUT TECH RESPONSIVE */
+@media (max-width: 1024px) {
+  .about-tech {
+    padding: 40px 20px; /* padding mai mic lateral */
+  }
+
+  .about-tech h4 {
+    font-size: 28px; /* titlu mai mic */
+  }
+
+  .about-tech p,
+  .about-tech ul {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-tech {
+    padding: 30px 10px; /* padding foarte mic lateral */
+  }
+
+  .about-tech h4 {
+    font-size: 24px; /* titlu mai mic pe telefoane */
+  }
+
+  .about-tech p,
+  .about-tech ul {
+    font-size: 12px;
+  }
 }

@@ -13,10 +13,11 @@ from fastapi.middleware.cors import CORSMiddleware
 import zipfile, tempfile
 import json
 app = FastAPI()
+import subprocess
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://13.60.8.194"],  # URL-ul frontend-ului
+    allow_origins=["http://56.228.2.150"],  # URL-ul frontend-ului
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -61,8 +62,15 @@ async def word_to_pdf(file: UploadFile = File(...),
     with open(input_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    convert(input_path, output_path)
-    
+    # Conversie folosind LibreOffice
+    subprocess.run([
+        "libreoffice",
+        "--headless",
+        "--convert-to", "pdf",
+        "--outdir", OUTPUT_FOLDER,
+        input_path
+    ], check=True)
+
     if background_tasks:
         background_tasks.add_task(os.remove, input_path)
         background_tasks.add_task(os.remove, output_path)

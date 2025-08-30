@@ -6,7 +6,7 @@ function Privacy() {
         <div className="footer-pages">
 
             <h1>Privacy Policy</h1>
-            <p><strong>Last updated: [date]</strong></p>
+            <p><strong>Last updated: [24/08/2025]</strong></p>
 
             <h2>1. Information We Collect</h2>
             <ul>
@@ -35,7 +35,7 @@ function Privacy() {
             <h2>5. Your Rights</h2>
             <p>
                 You may request deletion of your files at any time. 
-                For questions, contact us at <a href="mailto:[your email]">[your email]</a>.
+                For questions, contact us at <a href="mailto:alexniculae367@gmail.com">alexniculae367@gmail.com</a>.
             </p>
         </div>
 
