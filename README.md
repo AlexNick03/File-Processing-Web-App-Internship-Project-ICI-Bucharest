@@ -55,6 +55,5 @@
   - React build served via **Nginx**.  
   - **CORS** configured for frontend-backend communication.  
 
----
 
 
