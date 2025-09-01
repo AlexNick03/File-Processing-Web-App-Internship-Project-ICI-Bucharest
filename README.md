@@ -6,6 +6,9 @@
 
 ---
 ## Project data flow diagram
+
+<img width="1920" height="1080" alt="FileHandler" src="https://github.com/user-attachments/assets/2414f567-cb8f-492a-a52e-9ac100b5d410" />
+
 ## Frontend
 
 - **Framework:** React  
