@@ -1,27 +1,58 @@
 # File-Processing-Web-App-Internship-Project-ICI-Bucharest EC2 : http://56.228.2.150/
-File Handler Web App
-Overview
+## Overview
 
-File Handler is a web application that allows users to perform file conversion and manipulation operations on various file types, including PDF, Word, Excel, and images. The application combines a modern React frontend with a Python FastAPI backend, providing an interactive and user-friendly experience.
+File Handler is a web application that allows users to perform **file conversion and manipulation** operations on various file types, including **PDF, Word, Excel, and images**. The application combines a **modern React frontend** with a **Python FastAPI backend**, providing an interactive and user-friendly experience.
 
-Frontend
+---
 
-Framework: React
+## Frontend
 
-Why React: React simplifies routing, component management, and state handling, making the frontend fast, scalable, and modern.
+- **Framework:** React  
+- **Why React:**  
+  - Simplifies routing, component management, and state handling.  
+  - Provides a fast, modern, and scalable frontend.  
+- **Design:**  
+  - Warm and pleasant visual style.  
+  - Minimalist layout with **responsive CSS** for desktop and mobile devices.  
+- **Functionality:**  
+  - Intuitive interface for file uploads and conversion selection.  
+  - Handles requests to backend REST API endpoints.  
 
-Design:
+---
 
-Warm and pleasant visual style, minimalist layout.
+## Backend
 
-Responsive CSS to ensure compatibility on desktop and mobile devices.
+- **Framework:** FastAPI  
+- **Architecture:** REST API style  
+  - Each operation has a dedicated endpoint (e.g., `/pdf-to-word`, `/word-to-pdf`, `/excel-to-csv`).  
+  - Frontend communicates with backend through **HTTP POST requests**.  
+- **Why FastAPI:**  
+  - Rapid creation of modern API endpoints.  
+  - Smooth integration with Python libraries for file processing.  
+- **Libraries used:**  
+  - `pandas` – for Excel and CSV processing.  
+  - `pdf2docx` / `docx2pdf` – for PDF ↔ Word conversion.  
+  - `Pillow (PIL)` – for image manipulation and conversion.  
+- **Functionality:**  
+  - Upload and convert multiple file types.  
+  - Excel file cleanup and sorting.  
+  - Returns processed files for frontend download.  
 
-Functionality:
+---
 
-Intuitive interface for file uploads and conversion selection.
+## Hosting
 
-Status messages and previews where applicable.
+- **Platform:** AWS EC2  
+- **Why AWS:** Widely used cloud platform with flexibility for deployment.  
+- **Plan:** Free-tier AWS  
+- **Setup:**  
+  - FastAPI runs on the EC2 instance on port 8000.  
+  - React build served via **Nginx**.  
+  - **CORS** configured for frontend-backend communication.  
 
+---
+
+## Project Structure
 Backend
 
 Framework: FastAPI
