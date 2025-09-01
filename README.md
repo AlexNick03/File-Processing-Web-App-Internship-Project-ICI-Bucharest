@@ -1,7 +1,8 @@
 # File-Processing-Web-App-Internship-Project-ICI-Bucharest EC2 : http://56.228.2.150/
 ## Overview
 
-File Handler is a web application that allows users to perform **file conversion and manipulation** operations on various file types, including **PDF, Word, Excel, and images**. The application combines a **modern React frontend** with a **Python FastAPI backend**, providing an interactive and user-friendly experience.
+> **Internship Project at ICI Bucharest**  
+> This project was developed as part of my internship and practice program. The File Handler Web App allows users to perform **file conversion and manipulation** operations on various file types, including **PDF, Word, Excel, and images**. The application combines a **modern React frontend** with a **Python FastAPI backend**, providing an interactive and user-friendly experience.
 
 ---
 
